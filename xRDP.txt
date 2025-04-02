@@ -1,0 +1,51 @@
+xRDP
+
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt install xrdp -y
+sudo systemctl status xrdp
+sudo adduser xrdp ssl-cert
+sudo systemctl restart xrdp
+sudo ufw allow from 192.168.0.0/24 to any port 3389
+sudo ufw allow 3389
+
+
+sudo apt-get install dbus-x11
+sudo nano /etc/xrdp/startwm.sh
+
++++++++++++++++++++++++++++++++++++++++
+Add the following: Ensure that the code goes BEFORE this line test -x /etc/X11/Xsession && exec /etc/X11/Xsession.
++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++
+export $(dbus-launch)
++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++
+
+
+INSTALL GUI
+
+sudo apt update
+sudo apt install xfce4
+sudo nano /etc/xrdp/xrdp.ini
+
+
++++++++++++++++++++++++++++++++++++++++
+Edit the XRDP configuration file. Just paste it at the beginning of the file
++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++
+[xrdp1]
+name=XFCE
++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++
+
+sudo systemctl restart xrdp
+sudo ufw allow 3389/tcp
+
+
+
+INSTALL FIREFOX
+
+wget -q https://packages.mozilla.org/apt/repo-signing-key.gpg -O- | sudo tee /etc/apt/keyrings/packages.mozilla.org.asc > /dev/null
+echo "deb [signed-by=/etc/apt/keyrings/packages.mozilla.org.asc] https://packages.mozilla.org/apt mozilla main" | sudo tee -a /etc/apt/sources.list.d/mozilla.list > /dev/null
+sudo apt-get update && sudo apt-get install firefox
+sudo systemctl restart xrdp
